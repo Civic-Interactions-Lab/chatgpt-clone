@@ -5,22 +5,16 @@ import Thinking from './Thinking';
 import { MdSend } from 'react-icons/md';
 import Filter from 'bad-words';
 import { davinci } from '../utils/davinci';
-import { dalle } from '../utils/dalle';
-import Modal from './Modal';
-import Setting from './Setting';
 
 /**
  * A chat view component that displays a list of messages and a form for sending new messages.
  */
-const ChatView = () => {
+const ChatView = insert_log => {
   const messagesEndRef = useRef();
   const inputRef = useRef();
   const [formValue, setFormValue] = useState('');
   const [thinking, setThinking] = useState(false);
-  const options = ['ChatGPT', 'DALL·E'];
-  const [selected, setSelected] = useState(options[0]);
   const [messages, addMessage] = useContext(ChatContext);
-  const [modalOpen, setModalOpen] = useState(false);
 
   /**
    * Scrolls the chat area to the bottom.
@@ -53,38 +47,24 @@ const ChatView = () => {
    *
    * @param {Event} e - The submit event of the form.
    */
-  const sendMessage = async (e) => {
+  const sendMessage = async e => {
     e.preventDefault();
 
-    const key = window.localStorage.getItem('api-key');
-    if (!key) {
-      setModalOpen(true);
-      return;
-    }
-
     const filter = new Filter();
-    const cleanPrompt = filter.isProfane(formValue)
-      ? filter.clean(formValue)
-      : formValue;
+    const cleanPrompt = filter.isProfane(formValue) ? filter.clean(formValue) : formValue;
 
     const newMsg = cleanPrompt;
-    const aiModel = selected;
+    const aiModel = 'ChatGPT';
 
     setThinking(true);
     setFormValue('');
     updateMessage(newMsg, false, aiModel);
 
-    console.log(selected);
     try {
-      if (aiModel === options[0]) {
-        const response = await davinci(cleanPrompt, key);
-        const data = response.data.choices[0].message.content;
-        data && updateMessage(data, true, aiModel);
-      } else {
-        const response = await dalle(cleanPrompt, key);
-        const data = response.data.data[0].url;
-        data && updateMessage(data, true, aiModel);
-      }
+      const response = await davinci(cleanPrompt, process.env.OPENAI_KEY);
+      const data = response.data.choices[0].message.content;
+      data && updateMessage(data, true, aiModel);
+      insert_log(cleanPrompt, data);
     } catch (err) {
       window.alert(`Error: ${err} please try again later`);
     }
@@ -92,7 +72,7 @@ const ChatView = () => {
     setThinking(false);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = e => {
     if (e.key === 'Enter') {
       // 👇 Get input value
       sendMessage(e);
@@ -125,32 +105,19 @@ const ChatView = () => {
         <span ref={messagesEndRef}></span>
       </main>
       <form className='form' onSubmit={sendMessage}>
-        <select
-          value={selected}
-          onChange={(e) => setSelected(e.target.value)}
-          className='dropdown'>
-          <option>{options[0]}</option>
-          <option>{options[1]}</option>
-        </select>
         <div className='flex items-stretch justify-between w-full'>
           <textarea
             ref={inputRef}
             className='chatview__textarea-message'
             value={formValue}
             onKeyDown={handleKeyDown}
-            onChange={(e) => setFormValue(e.target.value)}
+            onChange={e => setFormValue(e.target.value)}
           />
-          <button
-            type='submit'
-            className='chatview__btn-send'
-            disabled={!formValue}>
+          <button type='submit' className='chatview__btn-send' disabled={!formValue}>
             <MdSend size={30} />
           </button>
         </div>
       </form>
-      <Modal title='Setting' modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        <Setting modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      </Modal>
     </div>
   );
 };
