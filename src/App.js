@@ -1,27 +1,53 @@
 import { ChatContextProvider } from './context/chatContext';
 import SideBar from './components/SideBar';
 import ChatView from './components/ChatView';
-import { useEffect, useState } from 'react';
-import Modal from './components/Modal';
-import Setting from './components/Setting';
+
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+import { serverTimestamp } from 'firebase/firestore'
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBhsjVuPP_njleOaq68JRQ3BNbbdzSrMZc",
+  authDomain: "test-4b540.firebaseapp.com",
+  projectId: "test-4b540",
+  storageBucket: "test-4b540.appspot.com",
+  messagingSenderId: "929535662880",
+  appId: "1:929535662880:web:9d0f0f019f6b87a8319545",
+};
+
+const app = initializeApp(firebaseConfig);
+
+const database = getDatabase(app);
+
+const auth = getAuth();
+
+signInAnonymously(auth)
+
+let uid;
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    uid = user.uid;
+  }
+});
+
+function writeLog(prompt, response, rating) {
+  set(ref(database, 'users/' + uid), {
+    prompt,
+    response,
+    rating,
+    timestamp: serverTimestamp()
+  });
+}
 
 const App = () => {
-  const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    const apiKey = window.localStorage.getItem('api-key');
-    if (!apiKey) {
-      setModalOpen(true);
-    }
-  }, []);
   return (
     <ChatContextProvider>
-      <Modal title='Setting' modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        <Setting modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      </Modal>
       <div className='flex transition duration-500 ease-in-out'>
         <SideBar />
-        <ChatView />
+        <ChatView writeLog={writeLog}/>
       </div>
     </ChatContextProvider>
   );

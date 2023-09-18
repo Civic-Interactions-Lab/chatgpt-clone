@@ -9,7 +9,7 @@ import { davinci } from '../utils/davinci';
 /**
  * A chat view component that displays a list of messages and a form for sending new messages.
  */
-const ChatView = insert_log => {
+const ChatView = writeLog => {
   const messagesEndRef = useRef();
   const inputRef = useRef();
   const [formValue, setFormValue] = useState('');
@@ -59,12 +59,12 @@ const ChatView = insert_log => {
     setThinking(true);
     setFormValue('');
     updateMessage(newMsg, false, aiModel);
-
+    
     try {
-      const response = await davinci(cleanPrompt, process.env.OPENAI_KEY);
+      const response = await davinci(cleanPrompt, process.env.REACT_APP_OPENAI_KEY);
       const data = response.data.choices[0].message.content;
       data && updateMessage(data, true, aiModel);
-      insert_log(cleanPrompt, data);
+      writeLog(cleanPrompt, data);
     } catch (err) {
       window.alert(`Error: ${err} please try again later`);
     }
