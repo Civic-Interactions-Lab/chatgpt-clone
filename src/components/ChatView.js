@@ -59,12 +59,12 @@ const ChatView = writeLog => {
     setThinking(true);
     setFormValue('');
     updateMessage(newMsg, false, aiModel);
-    
+
     try {
-      const response = await davinci(cleanPrompt, process.env.REACT_APP_OPENAI_KEY);
+      const response = await davinci(cleanPrompt);
       const data = response.data.choices[0].message.content;
       data && updateMessage(data, true, aiModel);
-      writeLog(cleanPrompt, data);
+      writeLog(cleanPrompt, data, "TODO: ADD Rating");
     } catch (err) {
       window.alert(`Error: ${err} please try again later`);
     }
