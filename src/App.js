@@ -22,7 +22,9 @@ const database = getDatabase(app);
 
 const auth = getAuth();
 
-signInAnonymously(auth);
+signInAnonymously(auth).catch(error => {
+  console.error('Failed to sign in anonymously:', error);
+});
 
 let uid;
 
