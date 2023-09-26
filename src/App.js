@@ -6,7 +6,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref, push, serverTimestamp } from 'firebase/database';
 
-const firebaseConfig = {
+const firebaseConfigDan = {
   apiKey: 'AIzaSyBhsjVuPP_njleOaq68JRQ3BNbbdzSrMZc',
   authDomain: 'test-4b540.firebaseapp.com',
   projectId: 'test-4b540',
@@ -15,17 +15,24 @@ const firebaseConfig = {
   appId: '1:929535662880:web:9d0f0f019f6b87a8319545',
 };
 
+const firebaseConfig = {
+  apiKey: "AIzaSyCHiv7gPoRZ_LKD-7XfDW1HjpsRlQA816Y",
+  authDomain: "log-chat-gpt.firebaseapp.com",
+  projectId: "log-chat-gpt",
+  storageBucket: "log-chat-gpt.appspot.com",
+  messagingSenderId: "107892481835",
+  appId: "1:107892481835:web:1d42ab7d2c302706892f6e",
+};
+
 const app = initializeApp(firebaseConfig);
-
 const database = getDatabase(app);
-
 const auth = getAuth();
+
+let uid;
 
 signInAnonymously(auth).catch(error => {
   console.error('Failed to sign in anonymously:', error);
 });
-
-let uid;
 
 onAuthStateChanged(auth, user => {
   console.log(user);
