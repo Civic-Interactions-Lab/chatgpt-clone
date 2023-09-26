@@ -4,7 +4,7 @@ import ChatView from './components/ChatView';
 
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, ref, set } from 'firebase/database';
+import { getDatabase, ref, push } from 'firebase/database';
 import { serverTimestamp } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -37,7 +37,7 @@ onAuthStateChanged(auth, user => {
 
 function writeLog(prompt, response, rating) {
   const logsRef = ref(database, 'users/' + uid + '/logs');
-  set(logsRef, {
+  push(logsRef, {
     prompt,
     response,
     rating,
