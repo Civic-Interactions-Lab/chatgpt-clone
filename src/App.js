@@ -42,6 +42,8 @@ function writeLog(prompt, response, rating) {
     response,
     rating,
     timestamp: serverTimestamp(),
+  }).catch(error => {
+    console.error('Failed to write log:', error);
   });
 }
 
