@@ -51,7 +51,6 @@ function writeLog(prompt, response, rating) {
   }).catch(error => {
     console.error('Failed to write log:', error);
   });
-  console.log('Wrote log');
 }
 
 const App = () => {
