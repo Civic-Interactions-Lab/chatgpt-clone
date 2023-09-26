@@ -9,7 +9,7 @@ import { davinci } from '../utils/davinci';
 /**
  * A chat view component that displays a list of messages and a form for sending new messages.
  */
-const ChatView = writeLog => {
+const ChatView = ({ writeLog }) => {
   const messagesEndRef = useRef();
   const inputRef = useRef();
   const [formValue, setFormValue] = useState('');
