@@ -36,7 +36,8 @@ onAuthStateChanged(auth, user => {
 });
 
 function writeLog(prompt, response, rating) {
-  set(ref(database, 'users/' + uid), {
+  const logsRef = ref(database, 'users/' + uid + '/logs');
+  set(logsRef, {
     prompt,
     response,
     rating,
