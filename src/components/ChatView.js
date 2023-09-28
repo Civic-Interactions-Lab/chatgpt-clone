@@ -48,6 +48,7 @@ const ChatView = ({ writeLog }) => {
    * @param {Event} e - The submit event of the form.
    */
   const sendMessage = async e => {
+    const start = performance.now();
     e.preventDefault();
 
     const filter = new Filter();
@@ -64,7 +65,9 @@ const ChatView = ({ writeLog }) => {
       const response = await davinci(cleanPrompt);
       const data = response.data.choices[0].message.content;
       data && updateMessage(data, true, aiModel);
+      const end = performance.now();
       writeLog(cleanPrompt, data, "TODO: ADD Rating");
+      console.log(`Request took ${end - start} milliseconds.`);
     } catch (err) {
       window.alert(`Error: ${err} please try again later`);
     }
