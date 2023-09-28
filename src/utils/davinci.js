@@ -19,7 +19,7 @@ export const davinci = async (prompt) => {
       { role: 'assistant', content: 'Hi! How can I help you?' },
       { role: 'user', content: `${prompt}?` },
     ],
-    temperature: 0.3,
+    temperature: 0.0,
     max_tokens: 1000,
     top_p: 0.3,
     frequency_penalty: 0.5,

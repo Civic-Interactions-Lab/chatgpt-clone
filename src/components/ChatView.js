@@ -53,7 +53,7 @@ const ChatView = ({ writeLog }) => {
 
     const filter = new Filter();
     const cleanPrompt = filter.isProfane(formValue) ? filter.clean(formValue) : formValue;
-
+    
     const newMsg = cleanPrompt;
     const aiModel = 'ChatGPT';
 
@@ -62,11 +62,11 @@ const ChatView = ({ writeLog }) => {
     updateMessage(newMsg, false, aiModel);
 
     try {
-      const response = await davinci(cleanPrompt);
+      const response = await davinci(newMsg);
       const data = response.data.choices[0].message.content;
       data && updateMessage(data, true, aiModel);
       const end = performance.now();
-      writeLog(cleanPrompt, data, "TODO: ADD Rating");
+      writeLog(newMsg, data, "TODO: ADD Rating");
       console.log(`Request took ${end - start} milliseconds.`);
     } catch (err) {
       window.alert(`Error: ${err} please try again later`);
