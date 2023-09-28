@@ -6,22 +6,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref, push, serverTimestamp } from 'firebase/database';
 
-const firebaseConfigDan = {
-  apiKey: 'AIzaSyBhsjVuPP_njleOaq68JRQ3BNbbdzSrMZc',
-  authDomain: 'test-4b540.firebaseapp.com',
-  projectId: 'test-4b540',
-  storageBucket: 'test-4b540.appspot.com',
-  messagingSenderId: '929535662880',
-  appId: '1:929535662880:web:9d0f0f019f6b87a8319545',
-};
-
 const firebaseConfig = {
-  apiKey: "AIzaSyCHiv7gPoRZ_LKD-7XfDW1HjpsRlQA816Y",
-  authDomain: "log-chat-gpt.firebaseapp.com",
-  projectId: "log-chat-gpt",
-  storageBucket: "log-chat-gpt.appspot.com",
-  messagingSenderId: "107892481835",
-  appId: "1:107892481835:web:1d42ab7d2c302706892f6e",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
