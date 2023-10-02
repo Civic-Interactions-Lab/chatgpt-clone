@@ -134,7 +134,7 @@
   }
 
   .message__thinking {
-    @apply animate-pulse duration-1000 h-12 w-12 dark:text-white text-black text-xl;
+    @apply animate-pulse duration-1000 h-12 w-48 dark:text-white text-black text-xl;
   }
 
   /* Signin Page */

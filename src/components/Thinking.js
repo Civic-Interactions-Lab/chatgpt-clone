@@ -10,7 +10,7 @@ const Thinking = () => {
         </div>
         <div className='text-left message__createdAt'>
           <div className="message__thinking">
-            thinking...
+            writing response...
           </div>
         </div>
       </div>
