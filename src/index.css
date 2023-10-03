@@ -66,6 +66,11 @@
     @apply font-mono;
   }
 
+  .nav__participant-id {
+    @apply text-white bg-light-grey rounded-md font-thin fixed bottom-0 mb-3 ml-auto mr-auto text-center w-auto p-1.5;
+    font-size: 0.96rem;
+  }
+
   /* CHATVIEW */
   .chatview {
     @apply flex flex-col h-screen duration-300 overflow-hidden relative bg-slate-200

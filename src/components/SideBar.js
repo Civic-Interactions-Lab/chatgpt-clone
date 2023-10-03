@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { MdClose, MdMenu, MdAdd } from 'react-icons/md';
 import { ChatContext } from '../context/chatContext';
 import bot from '../assets/bot.ico';
+import useAuth from '../hooks/useAuth';
 
 /**
  * A sidebar component that displays a list of nav items and a toggle
@@ -12,6 +13,7 @@ import bot from '../assets/bot.ico';
 const SideBar = () => {
   const [open, setOpen] = useState(true);
   const [, , clearMessages] = useContext(ChatContext);
+  const { uid } = useAuth();
 
   function handleResize() {
     window.innerWidth <= 720 ? setOpen(false) : setOpen(true);
@@ -44,6 +46,7 @@ const SideBar = () => {
           <h1 className={`${!open && 'hidden'}`}>New chat</h1>
         </span>
       </div>
+      <h1 className={`nav__participant-id ${!open && 'hidden'}`}>{uid}</h1>
     </section>
   );
 };
